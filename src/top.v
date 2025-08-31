@@ -1,7 +1,7 @@
 module top(
-    input         clk, reset,
-    output [31:0] WriteData, DataAdr,
-    output        MemWrite
+    input  wire        clk, reset,
+    output wire [31:0] WriteData, DataAdr,
+    output wire        MemWrite
 );
 
     wire [31:0] PC, Instr, ReadData;

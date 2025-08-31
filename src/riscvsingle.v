@@ -1,13 +1,14 @@
 module riscvsingle(
-        input           clk, reset,
-        input  [31:0]   ReadData,
-        input  [31:0]   Instr,
-        output [31:0]   PC,
-        output          MemWrite,
-        output [31:0]   ALUResult, WriteData
+        input  wire        clk, reset,
+        input  wire [31:0] ReadData,
+        input  wire [31:0] Instr,
+        output wire [31:0] PC,
+        output wire        MemWrite,
+        output wire [31:0] ALUResult,
+        output wire [31:0] WriteData
 );
 
- wire ALUSrc, RegWrite, Zero, PCSrc;
+ wire ALUSrc, RegWrite, BrEq, BrLT, PCSrc;
  wire [1:0] ResultSrc, ImmSrc;
  wire [2:0] ALUControl;
 
@@ -15,7 +16,7 @@ module riscvsingle(
     .op(Instr[6:0]),
     .funct3(Instr[14:12]),
     .funct7b5(Instr[30]),
-    .Zero(Zero),
+    .BrEq(BrEq), .BrLT(BrLT),
     .ResultSrc(ResultSrc),
     .MemWrite(MemWrite),
     .PCSrc(PCSrc),
@@ -36,7 +37,7 @@ datapath dp(
     .Instr(Instr),
     .ALUControl(ALUControl),
     .ReadData(ReadData),
-    .Zero(Zero),
+    .BrEq(BrEq), .BrLT(BrLT),
     .PC(PC),
     .ALUResult(ALUResult),
     .WriteData(WriteData)

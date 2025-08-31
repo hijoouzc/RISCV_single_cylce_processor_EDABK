@@ -1,0 +1,57 @@
+00000293  # addi x5, x0, 0
+
+00500093  # addi x1, x0, 5
+00500113  # addi x2, x0, 5
+00208463  # beq  x1, x2, +8 -> BEQ_OK
+00000613  # addi x12,x0,0
+00c2a023  # sw   x12,0(x5)
+00c0006f  # jal  x0, NEXT_BNE
+00100613  # BEQ_OK: addi x12,x0,1
+00c2a023  # sw   x12,0(x5)
+
+00500093  # addi x1,x0,5
+00700113  # addi x2,x0,7
+00209463  # bne  x1,x2,+8 -> BNE_OK
+00000613  # addi x12,x0,0
+00c2a223  # sw   x12,4(x5)
+00c0006f  # jal  x0, NEXT_BLT
+00100613  # BNE_OK: addi x12,x0,1
+00c2a223  # sw   x12,4(x5)
+
+fff00093  # addi x1,x0,-1
+00000113  # addi x2,x0,0
+0020c463  # blt  x1,x2,+8 -> BLT_OK
+00000613  # addi x12,x0,0
+00c2a423  # sw   x12,8(x5)
+00c0006f  # jal  x0, NEXT_BGE
+00100613  # BLT_OK: addi x12,x0,1
+00c2a423  # sw   x12,8(x5)
+
+00300093  # addi x1,x0,3
+ffe00113  # addi x2,x0,-2
+0020d463  # bge  x1,x2,+8 -> BGE_OK
+00000613  # addi x12,x0,0
+00c2a623  # sw   x12,12(x5)
+00c0006f  # jal  x0, NEXT_BLTU
+00100613  # BGE_OK: addi x12,x0,1
+00c2a623  # sw   x12,12(x5)
+
+00100093  # addi x1,x0,1
+00200113  # addi x2,x0,2
+0020e463  # bltu x1,x2,+8 -> BLTU_OK
+00000613  # addi x12,x0,0
+00c2a823  # sw   x12,16(x5)
+00c0006f  # jal  x0, NEXT_BGEU
+00100613  # BLTU_OK: addi x12,x0,1
+00c2a823  # sw   x12,16(x5)
+
+fff00093  # addi x1,x0,-1
+00100113  # addi x2,x0,1
+0020f463  # bgeu x1,x2,+8 -> BGEU_OK
+00000613  # addi x12,x0,0
+00c2aa23  # sw   x12,20(x5)
+00c0006f  # jal  x0, DONE
+00100613  # BGEU_OK: addi x12,x0,1
+00c2aa23  # sw   x12,20(x5)
+
+0000006f  # DONE: jal x0, DONE (vòng lặp vô hạn)

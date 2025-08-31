@@ -1,14 +1,15 @@
 module controller(
-    input [6:0] op,
-    input [2:0] funct3,
-    input funct7b5,
-    input Zero,
-    output [1:0] ResultSrc,
-    output MemWrite,
-    output PCSrc, ALUSrc,
-    output RegWrite,
-    output [1:0] ImmSrc,
-    output [2:0] ALUControl
+    input  wire [6:0] op,
+    input  wire [2:0] funct3,
+    input  wire       funct7b5,
+    input  reg       BrEq, BrLT,
+    output wire [1:0] ResultSrc,
+    output wire       MemWrite,
+    output reg        PCSrc,
+    output wire       ALUSrc,
+    output wire       RegWrite,
+    output wire [1:0] ImmSrc,
+    output wire [2:0] ALUControl
 );
     wire [1:0] ALUOp;
     wire Branch;
@@ -33,6 +34,18 @@ module controller(
         .ALUOp(ALUOp),
         .ALUControl(ALUControl)
     );
-    
-    assign PCSrc = Branch & Zero | Jump;
+
+    always @(Branch, BrEq, BrLT) begin
+        case (funct3)
+            3'b000: PCSrc = Branch & BrEq;      // beq
+            3'b001: PCSrc = Branch & ~BrEq;     // bne
+            3'b100: PCSrc = Branch & BrLT;      // blt
+            3'b101: PCSrc = Branch & ~BrLT;     // bge
+            3'b110: PCSrc = Branch & BrLT;      // bltu
+            3'b111: PCSrc = Branch & ~BrLT;     // bgeu
+
+            default: PCSrc = 1'b0;
+        endcase
+        PCSrc = PCSrc | Jump; 
+    end
 endmodule

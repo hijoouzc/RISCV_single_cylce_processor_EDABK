@@ -1,8 +1,8 @@
 module alu(
-    input [31:0] srcA, srcB,
-    input [2:0] ALUControl,
+    input wire [31:0] srcA, srcB,
+    input wire [2:0]  ALUControl,
     output reg [31:0] ALUResult,
-    output reg Zero
+    output reg        BrEq, BrLT
 );
 
     always @(srcA, srcB, ALUControl) begin
@@ -15,9 +15,10 @@ module alu(
             3'b101: ALUResult = srcA << srcB; // Shift left logical
             3'b110: ALUResult = srcA >> srcB; // Shift right logical
             3'b111: ALUResult = srcA >>> srcB; // Shift right arithmetic
-            default: ALUResult = 32'b0;
+            default: ALUResult = 32'b0 ;
         endcase
-        Zero = (ALUResult == 32'b0);
+        BrEq = (ALUResult == 32'b0);
+        BrLT = (ALUResult[31] == 1'b1);
     end
 
 endmodule

@@ -1,9 +1,9 @@
 module register_file(
-    input clk,
-    input we3, 
-    input [4:0] a1, a2, a3,
-    input [31:0] wd3,
-    output [31:0] rd1, rd2
+    input wire         clk,
+    input wire         we3, 
+    input wire  [4:0]  a1, a2, a3,
+    input wire  [31:0] wd3,
+    output wire [31:0] rd1, rd2
 );
     reg [31:0] RAM[31:0];
 
